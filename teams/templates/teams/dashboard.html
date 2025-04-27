@@ -1,0 +1,16 @@
+{% extends 'base.html' %} {% block content %}
+<h2>Your Teams</h2>
+<ul>
+	{% for team in teams %}
+	<li>{{ team.name }}</li>
+	{% empty %}
+	<li>You are not in any teams yet.</li>
+	{% endfor %}
+</ul>
+<a href="{% url 'teams:create_team' %}" class="btn btn-success"
+	>Create a Team</a
+>
+<a href="{% url 'cravings:log_craving' %}" class="btn btn-primary"
+	>Log a Craving</a
+>
+{% endblock %}
