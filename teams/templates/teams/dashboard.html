@@ -2,15 +2,15 @@
 <h2>Your Teams</h2>
 <ul>
 	{% for team in teams %}
-	<li>{{ team.name }}</li>
+	<li>
+		{{ team.name }} - Access Code: <strong>{{ team.access_code }}</strong>
+		<a href="{% url 'teams:team_cravings' team.id %}" class="btn btn-info btn-sm">View Team Cravings</a>
+	</li>
 	{% empty %}
 	<li>You are not in any teams yet.</li>
 	{% endfor %}
 </ul>
-<a href="{% url 'teams:create_team' %}" class="btn btn-success"
-	>Create a Team</a
->
-<a href="{% url 'cravings:log_craving' %}" class="btn btn-primary"
-	>Log a Craving</a
->
+<a href="{% url 'teams:create_team' %}" class="btn btn-success">Create a Team</a>
+<a href="{% url 'teams:join_team' %}" class="btn btn-info">Join a Team</a>
+<a href="{% url 'cravings:log_craving' %}" class="btn btn-primary">Log a Craving</a>
 {% endblock %}

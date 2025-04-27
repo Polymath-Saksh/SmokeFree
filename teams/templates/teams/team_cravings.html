@@ -1,0 +1,29 @@
+{% extends 'base.html' %} {% block content %}
+<h2>Craving Logs for Team: {{ team.name }}</h2>
+<table class="table">
+	<thead>
+		<tr>
+			<th>User</th>
+			<th>Timestamp</th>
+			<th>Intensity</th>
+			<th>Trigger</th>
+			<th>Notes</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for craving in cravings %}
+		<tr>
+			<td>{{ craving.user.username }}</td>
+			<td>{{ craving.timestamp }}</td>
+			<td>{{ craving.intensity }}</td>
+			<td>{{ craving.trigger }}</td>
+			<td>{{ craving.notes }}</td>
+		</tr>
+		{% empty %}
+		<tr>
+			<td colspan="5">No cravings logged yet.</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

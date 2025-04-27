@@ -115,6 +115,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = "users.CustomUser"  # Custom user model
+
+LOGIN_REDIRECT_URL = "teams:dashboard"  # Redirect to the dashboard after login
+LOGOUT_REDIRECT_URL = "login"  # Redirect to the login page after logout
+LOGIN_URL = "login"  # URL to redirect to for login
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
