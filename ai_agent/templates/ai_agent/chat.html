@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-3">AI Quit Coach</h2>
+
+    <div id="chat-container" class="border rounded p-3 mb-3"
+        style="height: 60vh; overflow-y: auto; background-color: #f8f9fa;">
+        <div id="message-list">
+            <div class="alert alert-info">
+                Hello! I'm your smoking cessation coach. How can I help you today?
+            </div>
+        </div>
+    </div>
+
+    <form id="chat-form" class="input-group">
+        {% csrf_token %}
+        <input type="text" id="message-input" class="form-control" placeholder="Ask your quit coach..."
+            autocomplete="off">
+        <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+</div>
+
+<script>
+    // Global variables
+    const chatContainer = document.getElementById('chat-container');
+    const messageList = document.getElementById('message-list');
+    const form = document.getElementById('chat-form');
+    let currentAssistantMessage = null;
+
+    // Add event listener for form submission
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const input = document.getElementById('message-input');
+        const message = input.value.trim();
+        if (!message) return;
+
+        // Add user message
+        addMessage(message, 'user');
+
+        // Clear input
+        input.value = '';
+
+        // Create assistant message container
+        currentAssistantMessage = document.createElement('div');
+        currentAssistantMessage.className = 'alert alert-light mb-2';
+        currentAssistantMessage.innerHTML = '<div class="typing-indicator">Thinking<span>.</span><span>.</span><span>.</span></div>';
+        messageList.appendChild(currentAssistantMessage);
+        scrollToBottom();
+
+        try {
+            const response = await fetch("{% url 'ai_agent:chat' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({ message: message })
+            });
+
+            // Replace typing indicator with empty content
+            currentAssistantMessage.innerHTML = '';
+            currentAssistantMessage.className = 'alert alert-success mb-2';
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+
+            // Process the stream
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                const chunk = decoder.decode(value);
+                const lines = chunk.split('\n\n');
+
+                for (const line of lines) {
+                    if (line.startsWith('data: ')) {
+                        // Extract text without the "data: " prefix
+                        const textContent = line.substring(6);
+                        currentAssistantMessage.textContent += textContent;
+                        scrollToBottom();
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            currentAssistantMessage.textContent = 'Sorry, I encountered an error. Please try again.';
+            currentAssistantMessage.className = 'alert alert-danger mb-2';
+        }
+    });
+
+    // Helper function to add a message to the chat
+    function addMessage(content, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = sender === 'user' ? 'alert alert-primary mb-2' : 'alert alert-success mb-2';
+        messageDiv.textContent = content;
+        messageList.appendChild(messageDiv);
+        scrollToBottom();
+    }
+
+    // Helper function to scroll to bottom of chat
+    function scrollToBottom() {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+</script>
+
+<style>
+    /* Typing indicator animation */
+    .typing-indicator {
+        color: #666;
+    }
+
+    .typing-indicator span {
+        animation: blink 1.4s infinite;
+        animation-fill-mode: both;
+    }
+
+    .typing-indicator span:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .typing-indicator span:nth-child(3) {
+        animation-delay: 0.4s;
+    }
+
+    @keyframes blink {
+        0% {
+            opacity: 0.1;
+        }
+
+        20% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0.1;
+        }
+    }
+</style>
+{% endblock %}

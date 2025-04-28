@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+import tempfile
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -144,3 +145,7 @@ MEDIA_ROOT = BASE_DIR / "media"  # Optional: for user-uploaded files
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Use file-based sessions (sessions will be lost on server restart if temp dir is cleared)
+SESSION_ENGINE = "django.contrib.sessions.backends.file"
+SESSION_FILE_PATH = tempfile.gettempdir()

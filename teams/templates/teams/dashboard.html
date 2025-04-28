@@ -10,6 +10,7 @@
 	<li>You are not in any teams yet.</li>
 	{% endfor %}
 </ul>
+<a href="{% url 'ai_agent:chat' %}" class="btn btn-secondary">Chat with AI Coach</a>
 <a href="{% url 'teams:create_team' %}" class="btn btn-success">Create a Team</a>
 <a href="{% url 'teams:join_team' %}" class="btn btn-info">Join a Team</a>
 <a href="{% url 'cravings:log_craving' %}" class="btn btn-primary">Log a Craving</a>

@@ -47,5 +47,8 @@ class CravingLog(models.Model):
     
     def get_summary(self):
         return f"Craving by {self.get_user()} with intensity {self.get_intensity()} at {self.get_timestamp()}."
+    
+    def get_last_craving(self):
+        return CravingLog.objects.filter(user=self.user).order_by('-timestamp').first()
 
 # Create your models here.

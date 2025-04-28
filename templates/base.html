@@ -10,7 +10,7 @@
 
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="{% url 'teams:dashboard' %}">SmokeFree Collective</a>
+			<a class="navbar-brand" href="{% url 'teams:dashboard' %}">SmokeFree</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
 				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -32,31 +32,34 @@
 						<a class="nav-link" href="{% url 'cravings:log_craving' %}">Log Craving</a>
 					</li>
 					<li class="nav-item">
+						<a class="nav-link" href="{% url 'ai_agent:chat' %}">SmokeFree Chatbot</a>
+					</li>
+					<li class="nav-item">
 						<a class="nav-link" href="{% url 'notifications:list' %}">Notifications</a>
 					</li>
 				</ul>
 				{% endif %}
 
-				<ul class="navbar-nav ms-auto"></ul>
-				{% if user.is_authenticated %}
-				<li class="nav-item">
-					<span class="navbar-text me-3">Hello, {{ user.username }}!</span>
-				</li>
-				<li class="nav-item">
-					<form method="post" action="{% url 'logout' %}">
-						{% csrf_token %}
-						<button type="submit" class="btn btn-link nav-link"
-							style="display:inline; padding:0; border:none; background:none;">Logout</button>
-					</form>
-				</li>
-				{% else %}
-				<li class="nav-item">
-					<a class="nav-link" href="{% url 'login' %}">Login</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{% url 'users:register' %}">Register</a>
-				</li>
-				{% endif %}
+				<ul class="navbar-nav ms-auto">
+					{% if user.is_authenticated %}
+					<li class="nav-item">
+						<span class="navbar-text me-3">Hello, {{ user.username }}!</span>
+					</li>
+					<li class="nav-item">
+						<form method="post" action="{% url 'logout' %}" style="display:inline;">
+							{% csrf_token %}
+							<button type="submit" class="btn btn-link nav-link"
+								style="display:inline; padding:0; border:none; background:none;">Logout</button>
+						</form>
+					</li>
+					{% else %}
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'login' %}">Login</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'users:register' %}">Register</a>
+					</li>
+					{% endif %}
 				</ul>
 			</div>
 
