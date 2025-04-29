@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "notifications",
     "users",
     "teams",
+    'insights',
     'crispy_bootstrap5',
     'crispy_forms',
 ]

@@ -1,0 +1,96 @@
+<!-- insights/templates/insights/dashboard.html -->
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <!-- Statistics Card -->
+    <div class="card mb-4 shadow">
+        <div class="card-header bg-primary text-white">
+            <h4>Your Quit Journey Stats</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>📈 Total Cravings</h5>
+                    <p class="display-4">{{ stats.total_cravings }}</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>🔥 Average Intensity</h5>
+                    <p class="display-4">{{ stats.avg_intensity|floatformat:1 }}</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>⏳ Days Committed</h5>
+                    <p class="display-4">{{ stats.days_since_start }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map Visualization -->
+    <div class="card mb-4 shadow">
+        <div class="card-header bg-info text-white">
+            <h4>Craving Locations</h4>
+        </div>
+        <div class="card-body p-0" style="height: 400px;">
+            <div id="map" style="height: 100%;"></div>
+        </div>
+    </div>
+
+    <!-- AI Suggestions -->
+    <div class="card shadow">
+        <div class="card-header bg-success text-white">
+            <h4>Personalized Strategies 💡</h4>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                {% for suggestion in suggestions %}
+                <li class="list-group-item">{{ suggestion|linebreaksbr }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script id="map-data" type="application/json">{{ map_data|json_script:"map-data" }}</script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{google_maps_api_key}}&callback=initMap" async defer></script>
+<script>
+    // Load map data from JSON safely
+    const mapPoints = JSON.parse(document.getElementById('map-data').textContent);
+
+    function initMap() {
+        // Create map with default center
+        const map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 4,
+            center: { lat: 20.5937, lng: 78.9629 } // Default to India
+        });
+
+        // Create bounds to auto-zoom to markers
+        const bounds = new google.maps.LatLngBounds();
+
+        // Add markers to map
+        mapPoints.forEach(point => {
+            const marker = new google.maps.Marker({
+                position: { lat: point.lat, lng: point.lng },
+                map: map,
+                title: point.info
+            });
+
+            // Extend bounds to include this marker
+            bounds.extend(marker.getPosition());
+
+            // Add info window
+            const infowindow = new google.maps.InfoWindow({
+                content: point.info
+            });
+
+            marker.addListener('click', () => {
+                infowindow.open(map, marker);
+            });
+        });
+
+        // Auto-zoom to show all markers
+        if (mapPoints.length > 0) {
+            map.fitBounds(bounds);
+        }
+    }
+</script>
+{% endblock %}

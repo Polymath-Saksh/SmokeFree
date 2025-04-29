@@ -14,5 +14,7 @@ class CravingLog(models.Model):
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
 
+    def get_last_craving(self):
+        return CravingLog.objects.filter(user=self.user).order_by('-timestamp').first()
     def __str__(self):
         return f"{self.user.username} - {self.timestamp} - Intensity: {self.intensity}"
