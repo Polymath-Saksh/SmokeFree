@@ -15,7 +15,8 @@ from dotenv import load_dotenv
 import os
 import tempfile
 
-load_dotenv()
+load_dotenv()  # Load environment variables from .env
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -149,8 +150,9 @@ MEDIA_ROOT = BASE_DIR / "media"  # Optional: for user-uploaded files
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Use file-based sessions (sessions will be lost on server restart if temp dir is cleared)
-SESSION_ENGINE = "django.contrib.sessions.backends.file"
+SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 SESSION_FILE_PATH = tempfile.gettempdir()
-
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = os.getenv('ENABLE_SSL', 'False') == 'True'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
