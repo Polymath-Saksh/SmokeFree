@@ -8,8 +8,7 @@ class CravingLogAdmin(admin.ModelAdmin):
         'timestamp',
         'intensity',
         'trigger',
-        'latitude',
-        'longitude',
+        'location',
         'duration',
         'notes',
     )

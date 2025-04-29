@@ -9,6 +9,7 @@ class CravingLogForm(forms.ModelForm):
         widgets = {
             'latitude': forms.HiddenInput(),
             'longitude': forms.HiddenInput(),
+            'location': forms.HiddenInput(),
             'duration': forms.NumberInput(attrs={
                 'min': 0,
                 'class': 'form-control'

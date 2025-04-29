@@ -8,56 +8,69 @@
 	<button type="submit" class="btn btn-primary">Log Craving</button>
 </form>
 
-<script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}"></script>
-
+<script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&libraries=places,geocoder"></script>
 <script>
-	let map, marker;
+	let map, marker, geocoder;
 
 	function initMap() {
-		// Default location (e.g., Delhi)
-		let lat = 0, lng = 0;
+		geocoder = new google.maps.Geocoder();
+
 		// Try to use user's current location
 		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(function (position) {
-				lat = position.coords.latitude;
-				lng = position.coords.longitude;
-				setMap(lat, lng);
-			}, function () {
-				setMap(lat, lng);
-			});
+			navigator.geolocation.getCurrentPosition(
+				position => setupMap(position.coords.latitude, position.coords.longitude),
+				() => setupMap(28.6139, 77.2090)  // Fallback to Delhi coordinates
+			);
 		} else {
-			setMap(lat, lng);
+			setupMap(28.6139, 77.2090);  // Browser doesn't support Geolocation
 		}
 	}
 
-	function setMap(lat, lng) {
+	function setupMap(lat, lng) {
 		map = new google.maps.Map(document.getElementById('map'), {
 			center: { lat: lat, lng: lng },
-			zoom: 14
+			zoom: 14,
+			mapId: 'YOUR_MAP_ID'  // Optional: Use styled map ID
 		});
 
 		marker = new google.maps.Marker({
 			position: { lat: lat, lng: lng },
 			map: map,
 			draggable: true,
-			title: "Drag me or click to set location"
+			title: "Drag to set location"
 		});
 
-		// Set initial values
+		// Initialize form fields
+		updateFormFields(lat, lng);
+		reverseGeocode({ lat: lat, lng: lng });
+
+		// Update on marker drag
+		marker.addListener('dragend', (event) => {
+			updateFormFields(event.latLng.lat(), event.latLng.lng());
+			reverseGeocode(event.latLng);
+		});
+
+		// Update on map click
+		map.addListener('click', (event) => {
+			marker.setPosition(event.latLng);
+			updateFormFields(event.latLng.lat(), event.latLng.lng());
+			reverseGeocode(event.latLng);
+		});
+	}
+
+	function updateFormFields(lat, lng) {
 		document.getElementById('id_latitude').value = lat;
 		document.getElementById('id_longitude').value = lng;
+	}
 
-		// Update lat/lng on marker drag
-		marker.addListener('dragend', function (event) {
-			document.getElementById('id_latitude').value = event.latLng.lat();
-			document.getElementById('id_longitude').value = event.latLng.lng();
-		});
-
-		// Allow user to click on map to move marker
-		map.addListener('click', function (event) {
-			marker.setPosition(event.latLng);
-			document.getElementById('id_latitude').value = event.latLng.lat();
-			document.getElementById('id_longitude').value = event.latLng.lng();
+	function reverseGeocode(latLng) {
+		geocoder.geocode({ location: latLng }, (results, status) => {
+			if (status === 'OK' && results[0]) {
+				document.getElementById('id_location').value = results[0].formatted_address;
+			} else {
+				console.error('Geocode failed:', status);
+				document.getElementById('id_location').value = 'Location not found';
+			}
 		});
 	}
 
