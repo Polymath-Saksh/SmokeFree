@@ -46,5 +46,7 @@ def log_craving(request):
             'longitude': 0.0
         })
     
-    return render(request, 'cravings/log_craving.html', {'form': form})
+    return render(request, 'cravings/log_craving.html', {
+        'form': form,
+        'google_maps_api_key': os.environ.get("GOOGLE_MAPS_API_KEY"),})
 

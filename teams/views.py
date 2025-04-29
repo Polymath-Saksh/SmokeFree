@@ -62,7 +62,7 @@ def team_cravings(request, team_id):
     if request.user not in team.members.all():
         return render(request, 'teams/not_authorized.html')
     
-    cravings = team.get_all_cravings()[:5]
+    cravings = team.get_all_cravings().order_by('-timestamp')[:5]  # Show latest 5 by timestamp
     stats, chart = generate_team_stats(team)
     
     context = {
