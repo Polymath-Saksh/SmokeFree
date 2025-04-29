@@ -47,8 +47,6 @@ SmokeFree is a Django-based web application to help users quit smoking by tracki
     GOOGLE_MAPS_API_KEY = <GOOGLEMAPS_API_KEY>
    ```
 
-```
-
 - Make sure to replace the placeholders with your actual credentials.
 - For Azure OpenAI, you can find your API key and endpoint in the Azure portal.
 - For Azure Communication Services, set up an email sender and connection string in the Azure portal.
@@ -56,6 +54,7 @@ SmokeFree is a Django-based web application to help users quit smoking by tracki
 - For Google Maps, ensure you have a valid API key.
 
 4. **Apply migrations:**
+
 ```
 
 python manage.py migrate
@@ -63,6 +62,7 @@ python manage.py migrate
 ```
 
 5. **Create a superuser (optional) for admin portal access:**
+
 ```
 
 python manage.py createsuperuser
@@ -70,6 +70,7 @@ python manage.py createsuperuser
 ```
 
 6. **Run the development server:**
+
 ```
 
 python manage.py runserver
@@ -91,11 +92,12 @@ python manage.py runserver
 - Google Maps API
 - Bootstrap 5
 
+## Collaborators
+
+- [Saksham Kumar](https://github.com/PolymathSaksh)
+- [Rhythm Narang](https://github.com/RhythmNarang1)
+- [Vaishnavi Ahire](https://github.com/VaishnaviAhire)
+
 ## License
 
-MIT License
-
----
-
-*For more details, see the code and comments in each app directory.*
-```
+[MIT License](LICENSE)
