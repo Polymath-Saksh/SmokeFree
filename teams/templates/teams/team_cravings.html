@@ -1,32 +1,99 @@
-{% extends 'base.html' %} {% block content %}
-<h2>Craving Logs for Team: {{ team.name }}</h2>
-<table class="table">
-	<thead>
-		<tr>
-			<th>User</th>
-			<th>Timestamp</th>
-			<th>Intensity</th>
-			<th>Trigger</th>
-			<th>Location</th>
-			<th>Notes</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for craving in cravings %}
-		<tr>
-			<td>{{ craving.user.username }}</td>
-			<td>{{ craving.timestamp }}</td>
-			<td>{{ craving.intensity }}</td>
-			<td>{{ craving.trigger }}</td>
-			<td>{{ craving.location }}</td>
-			<td>{{ craving.notes }}</td>
+{% extends "base.html" %}
 
-		</tr>
-		{% empty %}
-		<tr>
-			<td colspan="6">No cravings logged yet.</td>
-		</tr>
-		{% endfor %}
-	</tbody>
-</table>
+{% block content %}
+<div class="container mt-4">
+	<!-- Craving Logs Table -->
+	<div class="card mb-4 shadow">
+		<div class="card-header bg-primary text-white">
+			<h2 class="mb-0">Craving Logs for {{ team.name }}</h2>
+		</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-hover align-middle">
+					<thead>
+						<tr>
+							<th>User</th>
+							<th>Timestamp</th>
+							<th>Intensity</th>
+							<th>Trigger</th>
+							<th>Notes</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for craving in cravings %}
+						<tr>
+							<td>{{ craving.user.username }}</td>
+							<td>{{ craving.timestamp|date:"M d, Y H:i" }}</td>
+							<td>
+								<span
+									class="badge {% if craving.intensity <= 2 %}bg-success{% else %}bg-danger{% endif %}">
+									{{ craving.intensity }}/5
+								</span>
+							</td>
+							<td>{{ craving.trigger|default:"-" }}</td>
+							<td>{{ craving.notes|truncatechars:20|default:"-" }}</td>
+						</tr>
+						{% empty %}
+						<tr>
+							<td colspan="5" class="text-center">No cravings logged yet.</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<!-- Team Statistics Section -->
+	<div class="card shadow">
+		<div class="card-header bg-info text-white">
+			<h4 class="mb-0">Team Statistics (Last 7 Days)</h4>
+		</div>
+		<div class="card-body">
+			{% if compliance_chart %}
+			<div class="row g-4">
+				<!-- Chart Column -->
+				<div class="col-lg-8">
+					<div class="border rounded p-3">
+						<img src="data:image/png;base64,{{ compliance_chart }}" class="img-fluid"
+							alt="Team Compliance Chart">
+					</div>
+				</div>
+
+				<!-- Leaderboard Column -->
+				<div class="col-lg-4">
+					<div class="card h-100">
+						<div class="card-header bg-secondary text-white">
+							<h5 class="mb-0">Compliance Leaderboard</h5>
+						</div>
+						<div class="card-body p-0">
+							<div class="list-group list-group-flush">
+								{% for member in stats %}
+								<div class="list-group-item d-flex justify-content-between align-items-center">
+									<div>
+										<h6 class="mb-0">{{ member.user__username }}</h6>
+										<small class="text-muted">
+											{{ member.compliant_cravings }}/{{ member.total_cravings }} cravings
+										</small>
+									</div>
+									<span
+										class="badge {% if member.compliance_rate >= 0.7 %}bg-success{% else %}bg-warning{% endif %}">
+										{{ member.compliance_rate|floatformat:0 }}%
+									</span>
+								</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% else %}
+			<div class="alert alert-info mb-0">
+				<i class="bi bi-info-circle me-2"></i>
+				No craving data available for the past week.
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
 {% endblock %}

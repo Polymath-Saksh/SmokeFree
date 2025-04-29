@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 import string
+from cravings.models import CravingLog
+from datetime import datetime, timedelta
 import random
 
 def generate_unique_code(length=8):
@@ -49,4 +51,12 @@ class Team(models.Model):
     def get_all_cravings(self):
         from cravings.models import CravingLog
         return CravingLog.objects.filter(user__in=self.members.all().order_by('-username'))
+    
+    def get_recent_cravings(self):
+        one_week_ago = datetime.now() - timedelta(days=7)
+        return CravingLog.objects.filter(
+            user__in=self.members.all(),
+            timestamp__gte=one_week_ago
+        )
+
 # Create your models here.

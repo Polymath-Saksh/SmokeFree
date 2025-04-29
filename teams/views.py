@@ -7,6 +7,7 @@ from azure.ai.inference import ChatCompletionsClient
 from azure.core.credentials import AzureKeyCredential
 import os
 from datetime import datetime, timezone
+from .utils import generate_team_stats  # Import the function to generate team stats
 
 @login_required
 def dashboard(request):
@@ -60,11 +61,17 @@ def team_cravings(request, team_id):
     team = get_object_or_404(Team, id=team_id)
     if request.user not in team.members.all():
         return render(request, 'teams/not_authorized.html')
-    cravings = team.get_all_cravings()
-    return render(request, 'teams/team_cravings.html', {
+    
+    cravings = team.get_all_cravings()[:5]
+    stats, chart = generate_team_stats(team)
+    
+    context = {
         'team': team,
-        'cravings': cravings
-    })
+        'cravings': cravings,
+        'stats': stats,
+        'compliance_chart': chart
+    }
+    return render(request, 'teams/team_cravings.html', context)
 
 def get_gpt_quote():
     """Get motivational quote from GPT-4o-mini"""

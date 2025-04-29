@@ -4,6 +4,7 @@ from .forms import CravingLogForm
 from teams.models import Team  # Import Team model
 from .utils import send_craving_notification  # Import email utility
 import os
+from django.utils import timezone
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -14,6 +15,7 @@ def log_craving(request):
             # Save craving with user and location data
             craving = form.save(commit=False)
             craving.user = request.user
+            craving.timestamp = timezone.now()
             craving.save()
 
             # Get all teams the user belongs to
