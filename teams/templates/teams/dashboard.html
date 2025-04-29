@@ -1,17 +1,62 @@
-{% extends 'base.html' %} {% block content %}
-<h2>Your Teams</h2>
-<ul>
-	{% for team in teams %}
-	<li>
-		{{ team.name }} - Access Code: <strong>{{ team.access_code }}</strong>
-		<a href="{% url 'teams:team_cravings' team.id %}" class="btn btn-info btn-sm">View Team Cravings</a>
-	</li>
-	{% empty %}
-	<li>You are not in any teams yet.</li>
-	{% endfor %}
-</ul>
-<a href="{% url 'ai_agent:chat' %}" class="btn btn-secondary">Chat with AI Coach</a>
-<a href="{% url 'teams:create_team' %}" class="btn btn-success">Create a Team</a>
-<a href="{% url 'teams:join_team' %}" class="btn btn-info">Join a Team</a>
-<a href="{% url 'cravings:log_craving' %}" class="btn btn-primary">Log a Craving</a>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+	<!-- Motivation Section -->
+	<div class="card mb-4 shadow">
+		<div class="card-body bg-light">
+			<blockquote class="blockquote mb-0">
+				<p class="fs-4">"{{ quote }}"</p>
+				<footer class="blockquote-footer mt-2">Your AI Quit Coach</footer>
+			</blockquote>
+			<div class="mt-3 text-muted">
+				<i class="bi bi-clock-history me-2"></i>
+				{{ time_since_last }}
+			</div>
+		</div>
+	</div>
+
+	<!-- Team Management Section -->
+	<div class="card shadow">
+		<div class="card-body">
+			<h2 class="card-title mb-4">Your Teams</h2>
+
+			{% if teams %}
+			<div class="list-group mb-4">
+				{% for team in teams %}
+				<div class="list-group-item d-flex justify-content-between align-items-center">
+					<div>
+						<h5 class="mb-1">{{ team.name }}</h5>
+						<small class="text-muted">Access Code: <strong>{{ team.access_code }}</strong></small>
+					</div>
+					<a href="{% url 'teams:team_cravings' team.id %}" class="btn btn-outline-info btn-sm">
+						View Cravings <i class="bi bi-arrow-right"></i>
+					</a>
+				</div>
+				{% endfor %}
+			</div>
+			{% else %}
+			<div class="alert alert-warning" role="alert">
+				You're not part of any teams yet. Create or join one to get started!
+			</div>
+			{% endif %}
+
+			<!-- Action Buttons -->
+			<div class="d-grid gap-2 d-md-flex justify-content-md-start">
+				<a href="{% url 'teams:create_team' %}" class="btn btn-success me-md-2">
+					<i class="bi bi-plus-circle"></i> Create Team
+				</a>
+				<a href="{% url 'teams:join_team' %}" class="btn btn-info me-md-2">
+					<i class="bi bi-people"></i> Join Team
+				</a>
+				<a href="{% url 'cravings:log_craving' %}" class="btn btn-primary me-md-2">
+					<i class="bi bi-plus"></i> Log Craving
+				</a>
+				<a href="{% url 'ai_agent:chat' %}" class="btn btn-secondary">
+					<i class="bi bi-robot"></i> AI Coach
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock %}

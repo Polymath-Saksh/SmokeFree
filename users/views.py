@@ -11,15 +11,18 @@ class CustomUserCreationForm(UserCreationForm):
     name = forms.CharField(max_length=150, required=False, label="Full Name")
     gender = forms.ChoiceField(choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')], required=False)
     age = forms.IntegerField(required=False, min_value=0)
+    email = forms.EmailField(required=True, label="Email")  # <-- Add this line
+
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
-        fields = UserCreationForm.Meta.fields + ('name','gender','age')
+        fields = UserCreationForm.Meta.fields + ('name','gender','age','email')  # <-- Add 'email'
 
     def save(self, commit=True):
         user = super().save(commit=False)
         user.name = self.cleaned_data['name']
         user.gender = self.cleaned_data['gender']
         user.age = self.cleaned_data['age']
+        user.email = self.cleaned_data['email']  # <-- Save email
         if commit:
             user.save()
         return user

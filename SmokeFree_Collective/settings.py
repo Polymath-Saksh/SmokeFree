@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     "cravings",
     "notifications",
     "users",
-    "teams"
+    "teams",
+    'crispy_bootstrap5',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -149,3 +151,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Use file-based sessions (sessions will be lost on server restart if temp dir is cleared)
 SESSION_ENGINE = "django.contrib.sessions.backends.file"
 SESSION_FILE_PATH = tempfile.gettempdir()
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"

@@ -1,20 +1,32 @@
-{% extends 'base.html' %} {% block content %}
+<!-- cravings/log_craving.html -->
+{% extends "base.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
 <h2>Log a Craving</h2>
-<form method="post">
+<form method="post" id="craving-form">
 	{% csrf_token %}
-	<label>Intensity (1-5):</label>
-	<input
-		type="number"
-		name="intensity"
-		min="1"
-		max="5"
-		class="form-control mb-2"
-		required
-	/>
-	<label>Trigger:</label>
-	<input type="text" name="trigger" class="form-control mb-2" />
-	<label>Notes:</label>
-	<textarea name="notes" class="form-control mb-2"></textarea>
+	{{ form.as_p }}
 	<button type="submit" class="btn btn-primary">Log Craving</button>
 </form>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		// Get location when form loads
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function (position) {
+				document.getElementById('id_latitude').value = position.coords.latitude;
+				document.getElementById('id_longitude').value = position.coords.longitude;
+			}, function (error) {
+				console.error("Error getting location:", error);
+				// Set default values or handle error
+				document.getElementById('id_latitude').value = 0.0;
+				document.getElementById('id_longitude').value = 0.0;
+			});
+		} else {
+			console.warn("Geolocation is not supported by this browser");
+			document.getElementById('id_latitude').value = 0.0;
+			document.getElementById('id_longitude').value = 0.0;
+		}
+	});
+</script>
 {% endblock %}
