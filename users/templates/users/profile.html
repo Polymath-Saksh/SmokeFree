@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Your Profile</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success mt-2">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}
