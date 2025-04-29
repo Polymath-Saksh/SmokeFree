@@ -27,24 +27,25 @@ SmokeFree is a Django-based web application to help users quit smoking by tracki
 
 3. **Set up environment variables:**
    -Create a `.env` file in the root directory and add your environment variables:
+
    ```
    # POSTGRES Config
-   POSTGRES_HOST="c-smokefree.lmtgct4zz6zbx2.postgres.cosmos.azure.com"
+   POSTGRES_HOST=<POSTGRES_HOST>
    POSTGRES_PORT=5432
-   POSTGRES_USER="citus"
-   POSTGRES_PASSWORD="SmokeFreeMicrosoft@2025"
-   POSTGRES_DB="smokefree_db"
+   POSTGRES_USER=<POSTGRES_USER>
+   POSTGRES_PASSWORD=<POSTGRES_PASSWORD>
+   POSTGRES_DB=<POSTGRES_DB>
+
+    #AZURE Config
+    AZURE_ENDPOINT=<API_ENDPOINT>
+    AZURE_API_KEY= <API_KEY>
+    AZURE_MODEL_NAME= <MODEL_NAME>
+
+    AZURE_SENDER_ADDRESS = <Sender_Email_Address>
+    AZURE_EMAIL_CONNECTION_STRING = <Connection_String>
+
+    GOOGLE_MAPS_API_KEY = <GOOGLEMAPS_API_KEY>
    ```
-
-#AZURE Config
-AZURE_ENDPOINT=<API_ENDPOINT>
-AZURE_API_KEY= <API_KEY>
-AZURE_MODEL_NAME= <MODEL_NAME>
-
-AZURE_SENDER_ADDRESS = <Sender_Email_Address>
-AZURE_EMAIL_CONNECTION_STRING = <Connection_String>
-
-GOOGLE_MAPS_API_KEY = <GOOGLEMAPS_API_KEY>
 
 ```
 
@@ -61,7 +62,7 @@ python manage.py migrate
 
 ```
 
-5. **Create a superuser (optional):**
+5. **Create a superuser (optional) for admin portal access:**
 ```
 
 python manage.py createsuperuser
