@@ -13,6 +13,9 @@ class CustomUser(AbstractUser):
     age = models.PositiveIntegerField(null=True, blank=True)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     email = models.EmailField(unique=True, blank=True, null=True)
+
+    reset_otp = models.CharField(max_length=6, blank=True, null=True, default=None)
+    reset_otp_created = models.DateTimeField(blank=True, null=True, default=None)
     
     def __str__(self):
         return self.username
