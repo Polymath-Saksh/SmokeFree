@@ -3,3 +3,6 @@ python-dotenv
 psycopg2-binary
 azure-ai-inference
 azure-identity
+matplotlib
+numpy
+pandas
