@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Verify OTP & Reset Password</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    - <button class="btn btn-success" type="submit">Reset Password</button>
+    + <button class="btn btn-success" type="submit">
+        + <i class="bi bi-key me-1"></i> Reset Password
+        + </button>
+</form>
+{% endblock %}

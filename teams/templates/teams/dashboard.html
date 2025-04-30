@@ -4,59 +4,59 @@
 <div class="container mt-4">
 	<!-- Motivation Section -->
 	<div class="card mb-4 shadow">
-		<div class="card-body bg-light">
+		<div class="card-body" style="color: black; background-color: #f8f9fa;">
 			<blockquote class="blockquote mb-0">
-				<p class="fs-4">"{{ quote }}"</p>
-				<footer class="blockquote-footer mt-2">Your AI Quit Coach</footer>
+				<p class="fs-4" style="color: black;">"{{ quote }}"</p>
+				<footer class="blockquote-footer mt-2" style="color: black;">Your AI Quit Coach</footer>
 			</blockquote>
-			<div class="mt-3 text-muted">
-				<i class="bi bi-clock-history me-2"></i>
-				{{ time_since_last }}
-			</div>
+			<div class="mt-3 text-muted" style="color: black;"></div>
+			<i class="bi bi-clock-history me-2"></i>
+			{{ time_since_last }}
 		</div>
 	</div>
+</div>
 
-	<!-- Team Management Section -->
-	<div class="card shadow">
-		<div class="card-body">
-			<h2 class="card-title mb-4">Your Teams</h2>
+<!-- Team Management Section -->
+<div class="card shadow">
+	<div class="card-body">
+		<h2 class="card-title mb-4">Your Teams</h2>
 
-			{% if teams %}
-			<div class="list-group mb-4">
-				{% for team in teams %}
-				<div class="list-group-item d-flex justify-content-between align-items-center">
-					<div>
-						<h5 class="mb-1">{{ team.name }}</h5>
-						<small class="text-muted">Access Code: <strong>{{ team.access_code }}</strong></small>
-					</div>
-					<a href="{% url 'teams:team_cravings' team.id %}" class="btn btn-outline-info btn-sm">
-						View Cravings <i class="bi bi-arrow-right"></i>
-					</a>
+		{% if teams %}
+		<div class="list-group mb-4">
+			{% for team in teams %}
+			<div class="list-group-item d-flex justify-content-between align-items-center">
+				<div>
+					<h5 class="mb-1">{{ team.name }}</h5>
+					<small class="text-muted">Access Code: <strong>{{ team.access_code }}</strong></small>
 				</div>
-				{% endfor %}
+				<a href="{% url 'teams:team_cravings' team.id %}" class="btn btn-outline-info btn-sm">
+					View Cravings <i class="bi bi-arrow-right"></i>
+				</a>
 			</div>
-			{% else %}
-			<div class="alert alert-warning" role="alert">
-				You're not part of any teams yet. Create or join one to get started!
-			</div>
-			{% endif %}
+			{% endfor %}
+		</div>
+		{% else %}
+		<div class="alert alert-warning" role="alert">
+			You're not part of any teams yet. Create or join one to get started!
+		</div>
+		{% endif %}
 
-			<!-- Action Buttons -->
-			<div class="d-grid gap-2 d-md-flex justify-content-md-start">
-				<a href="{% url 'teams:create_team' %}" class="btn btn-success me-md-2">
-					<i class="bi bi-plus-circle"></i> Create Team
-				</a>
-				<a href="{% url 'teams:join_team' %}" class="btn btn-info me-md-2">
-					<i class="bi bi-people"></i> Join Team
-				</a>
-				<a href="{% url 'cravings:log_craving' %}" class="btn btn-primary me-md-2">
-					<i class="bi bi-plus"></i> Log Craving
-				</a>
-				<a href="{% url 'ai_agent:chat' %}" class="btn btn-secondary">
-					<i class="bi bi-robot"></i> AI Coach
-				</a>
-			</div>
+		<!-- Action Buttons -->
+		<div class="d-grid gap-2 d-md-flex justify-content-md-start">
+			<a href="{% url 'teams:create_team' %}" class="btn btn-success me-md-2">
+				<i class="bi bi-plus-circle"></i> Create Team
+			</a>
+			<a href="{% url 'teams:join_team' %}" class="btn btn-info me-md-2">
+				<i class="bi bi-people"></i> Join Team
+			</a>
+			<a href="{% url 'cravings:log_craving' %}" class="btn btn-primary me-md-2">
+				<i class="bi bi-plus"></i> Log Craving
+			</a>
+			<a href="{% url 'ai_agent:chat' %}" class="btn btn-secondary">
+				<i class="bi bi-robot"></i> AI Coach
+			</a>
 		</div>
 	</div>
+</div>
 </div>
 {% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Join a Team</h2>
+<form method="post">
+    {% csrf_token %}
+    <label for="access_code">Enter Team Access Code:</label>
+    <input type="text" id="access_code" name="access_code" maxlength="8" required class="form-control mb-2">
+    <button type="submit" class="btn btn-primary">Join Team</button>
+</form>
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-info">{{ message }}</div>
+{% endfor %}
+{% endif %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-info">{{ message }}</div>
+{% endfor %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,78 @@
+/* Typography */
+body {
+    font-family: 'Nunito', sans-serif;
+    background: #f4f8fa;
+    color: #333;
+}
+
+/* Dark Mode Base */
+body {
+    background: #121212;
+    color: #e0e0e0;
+}
+
+/* Navbar */
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #fff;
+}
+
+.navbar {
+    background-color: #1f1f1f !important;
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #1a73e8;
+    border-color: #1a73e8;
+    border-radius: 0.375rem;
+}
+
+.btn-primary:hover {
+    background-color: #1669c1;
+    border-color: #1669c1;
+}
+
+.btn-primary {
+    background-color: #bb86fc;
+    border-color: #bb86fc;
+}
+
+.btn-primary:hover {
+    background-color: #9a67ea;
+    border-color: #9a67ea;
+}
+
+.btn-outline-light {
+    color: #e0e0e0;
+    border-color: #e0e0e0;
+}
+
+.btn-outline-light:hover {
+    background-color: #e0e0e0;
+    color: #000;
+}
+
+/* Forms */
+.form-control {
+    border-radius: 0.375rem;
+    border: 1px solid #ced4da;
+}
+
+/* Main */
+main {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
