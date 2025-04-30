@@ -18,6 +18,10 @@ def ai_chat(request):
 
         # Add user context using get_last_craving
         username = request.user.username
+        name = request.user.name if hasattr(request.user, 'name') else username
+        gender = request.user.gender if hasattr(request.user,'gender') else 'N/A'
+        age = request.user.age if hasattr(request.user, 'age') else 'N/A'
+
         last_craving = CravingLog.objects.filter(user=request.user).order_by('-timestamp').first()
         if last_craving:
             last = last_craving.get_last_craving()
@@ -33,7 +37,7 @@ def ai_chat(request):
 
         system_message = (
             "You are a supportive smoking cessation coach providing empathetic, practical advice. Start with displaying a friendly, personalised greeting to the user and the last craving context. "
-            f"User context: username is '{username}'. {craving_context}"
+            f"User context: name is {name}, gender {gender}, age {age}."
         )
 
         client = ChatCompletionsClient(

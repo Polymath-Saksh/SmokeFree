@@ -35,15 +35,35 @@
         </div>
     </div>
 
-    <!-- AI Suggestions -->
-    <div class="card shadow">
-        <div class="card-header bg-success text-white">
-            <h4>Personalized Strategies 💡</h4>
+    <!-- AI Insights -->
+    <div class="card mb-4 shadow">
+        <div class="card-header bg-warning text-dark">
+            <h4>Personalized Insights 🧠</h4>
         </div>
         <div class="card-body">
             <ul class="list-group">
-                {% for suggestion in suggestions %}
-                <li class="list-group-item">{{ suggestion|linebreaksbr }}</li>
+                {% for insight in insights %}
+                <li class="list-group-item">{{ insight|linebreaksbr }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Actionable Strategies -->
+    <div class="card shadow">
+        <div class="card-header bg-success text-white">
+            <h4>Actionable Strategies 💡</h4>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                {% for strategy in strategies %}
+                <li class="list-group-item">
+                    {% if strategy.0 %}
+                    <strong>{{ strategy.0 }}</strong>{% if strategy.1 %}: {{ strategy.1 }}{% endif %}
+                    {% else %}
+                    {{ strategy|linebreaksbr }}
+                    {% endif %}
+                </li>
                 {% endfor %}
             </ul>
         </div>

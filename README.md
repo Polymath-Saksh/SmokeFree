@@ -94,7 +94,7 @@ python manage.py runserver
 
 ## Collaborators
 
-- [Saksham Kumar](https://github.com/PolymathSaksh)
+- [Saksham Kumar](https://github.com/Polymath-Saksh)
 - [Rhythm Narang](https://github.com/RhythmNarang1)
 - [Vaishnavi Ahire](https://github.com/VaishnaviAhire)
 

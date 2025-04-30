@@ -8,6 +8,7 @@ from .forms import UserProfileForm, ForgotPasswordForm, OTPVerifyForm
 from django.contrib import messages
 from .models import CustomUser
 from django.utils import timezone
+from datetime import timedelta
 
 from .utils import generate_otp, send_otp_email
 class CustomUserCreationForm(UserCreationForm):
@@ -101,3 +102,8 @@ def verify_otp(request):
         # Pre-fill email if passed as GET param
         form = OTPVerifyForm(initial={'email': request.GET.get('email', '')})
     return render(request, 'users/verify_otp.html', {'form': form})
+
+def homepage(request):
+    if not request.user.is_authenticated:
+        return redirect('login')  # Replace 'login' with your login url name
+    return render(request, 'homepage.html')

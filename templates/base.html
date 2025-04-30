@@ -18,45 +18,34 @@
 			</button>
 
 			<div class="collapse navbar-collapse" id="navbarNav">
-				{% if user.is_authenticated %}
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'teams:dashboard' %}">Dashboard</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'teams:create_team' %}">Create Team</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'teams:join_team' %}">Join Team</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'cravings:log_craving' %}">Log Craving</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'ai_agent:chat' %}">SmokeFree Chatbot</a>
-					</li>
-					<li class="nav-item">
+				<ul class="navbar-nav w-100 d-flex flex-wrap">
+					{% if user.is_authenticated %}
+					<!-- Left-aligned items -->
+					<li class="nav-item me-auto d-flex flex-row">
+						<a class="nav-link" href="{% url 'teams:dashboard' %}">
+							<i class="bi bi-house-door"></i> Dashboard
+						</a>
+						<a class="nav-link" href="{% url 'teams:create_team' %}">
+							<i class="bi bi-people"></i> Create Team
+						</a>
+						<a class="nav-link" href="{% url 'teams:join_team' %}">
+							<i class="bi bi-person-plus"></i> Join Team
+						</a>
+						<a class="nav-link" href="{% url 'cravings:log_craving' %}">
+							<i class="bi bi-journal-plus"></i> Log Craving
+						</a>
+						<a class="nav-link" href="{% url 'ai_agent:chat' %}">
+							<i class="bi bi-robot"></i> SmokeFree Chatbot
+						</a>
 						<a class="nav-link" href="{% url 'insights:dashboard' %}">
 							<i class="bi bi-graph-up"></i> My Insights
 						</a>
 					</li>
-
-					<!-- <li class="nav-item">
-						<a class="nav-link" href="{% url 'notifications:list' %}">Notifications</a>
-					</li> -->
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'users:profile' %}">Profile</a>
-					</li>
-				</ul>
-				{% endif %}
-
-				<ul class="navbar-nav ms-auto">
-					{% if user.is_authenticated %}
-
-					<li class="nav-item">
-						<span class="navbar-text me-3">Hello, {{ user.username }}!</span>
-					</li>
-					<li class="nav-item">
+					<!-- Right-aligned items -->
+					<li class="nav-item ms-auto d-flex flex-row align-items-center">
+						<a href="{% url 'users:profile' %}" class="nav-link text-dark">
+							<i class="bi bi-person-circle"></i> {{ user.username }}
+						</a>
 						<form method="post" action="{% url 'logout' %}" style="display:inline;">
 							{% csrf_token %}
 							<button type="submit" class="btn btn-link nav-link"
@@ -64,19 +53,21 @@
 						</form>
 					</li>
 					{% else %}
-					<li class="nav-item">
+					<!-- Left-aligned items (none for guests) -->
+					<li class="nav-item me-auto"></li>
+					<!-- Right-aligned items -->
+					<li class="nav-item ms-auto d-flex flex-row">
 						<a class="nav-link" href="{% url 'login' %}">Login</a>
-					</li>
-					<li class="nav-item">
 						<a class="nav-link" href="{% url 'users:register' %}">Register</a>
 					</li>
 					{% endif %}
 				</ul>
 			</div>
-
 		</div>
 	</nav>
 	<div class="container mt-4">{% block content %}{% endblock %}</div>
+	<!-- Add Bootstrap JS for navbar toggler functionality -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
