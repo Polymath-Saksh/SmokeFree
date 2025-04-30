@@ -1,11 +1,11 @@
 # insights/views.py
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render # type: ignore
+from django.contrib.auth.decorators import login_required #type: ignore
 from cravings.models import CravingLog
-from django.db import models
+from django.db import models # type: ignore
 from datetime import datetime, timedelta
-import pandas as pd
-from azure.ai.inference import ChatCompletionsClient
+import pandas as pd # type: ignore
+from azure.ai.inference import ChatCompletionsClient # type: ignore
 from azure.core.credentials import AzureKeyCredential
 import os
 from dotenv import load_dotenv
